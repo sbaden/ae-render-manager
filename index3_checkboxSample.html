@@ -1,0 +1,72 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="./lib/CSInterface.js"></script>
+    <script src="./lib/jquery-3.2.1.js"></script>
+    <script src="./js/ext.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link id="ppstyle" rel="stylesheet" type="text/css" href="css/style.css">
+       
+    <title>Render Manager</title>
+    
+  </head>
+
+  <body onLoad="onLoaded()">
+
+		<!-- If you want radio buttons set type="radio" and give them the same name -->
+		<div id="selectGroup">
+		    <div class="input_span"><label><input class="radio_checkbox" value="3800" type="checkbox" name="select[]">Select All</label></div>
+		    <div class="input_span"><label><input class="radio_checkbox" value="0200" type="checkbox" name="select[]">Select None</label></div>
+		</div>
+
+		<!-- or if you want checkboxes so that you can get multiple items give them a name as an array -->
+		<div id="selectDesired">
+		    <div class="input_span">
+		        <div class="input_teams"><label><input class="radio_checkbox" value="3800" type="checkbox" name="teams[]">ARI</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="0200" type="checkbox" name="teams[]">ATL</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="0610" type="checkbox" name="teams[]">BUF</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="0325" type="checkbox" name="teams[]">BAL</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="0750" type="checkbox" name="teams[]">CAR</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="0810" type="checkbox" name="teams[]">CHI</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="0920" type="checkbox" name="teams[]">CIN</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="1050" type="checkbox" name="teams[]">CLE</label></div>
+		    </div>
+		    
+		    <div class="input_span">
+		        <div class="input_teams"><label><input class="radio_checkbox" value="1200" type="checkbox" name="teams[]">DAL</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="1400" type="checkbox" name="teams[]">DEN</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="1540" type="checkbox" name="teams[]">DET</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="1800" type="checkbox" name="teams[]">GB</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="2120" type="checkbox" name="teams[]">HOU</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="2200" type="checkbox" name="teams[]">IND</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="2250" type="checkbox" name="teams[]">JAX</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="2310" type="checkbox" name="teams[]">KC</label></div>
+		    </div>
+		   
+		    <div class="input_span">
+		        <div class="input_teams"><label><input class="radio_checkbox" value="2510" type="checkbox" name="teams[]">LA</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="4400" type="checkbox" name="teams[]">LAC</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="2700" type="checkbox" name="teams[]">MIA</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="3000" type="checkbox" name="teams[]">MIN</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="3200" type="checkbox" name="teams[]">NE</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="3300" type="checkbox" name="teams[]">NO</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="3410" type="checkbox" name="teams[]">NYG</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="3430" type="checkbox" name="teams[]">NYJ</label></div>
+		    </div>
+		    
+		    <div class="input_span">
+		        <div class="input_teams"><label><input class="radio_checkbox" value="2520" type="checkbox" name="teams[]">OAK</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="3700" type="checkbox" name="teams[]">PHI</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="3900" type="checkbox" name="teams[]">PIT</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="4600" type="checkbox" name="teams[]">SEA</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="4500" type="checkbox" name="teams[]">SF</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="4900" type="checkbox" name="teams[]">TB</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="2100" type="checkbox" name="teams[]">TEN</label></div>
+		        <div class="input_teams"><label><input class="radio_checkbox" value="5110" type="checkbox" name="teams[]">WAS</label></div>
+		    </div>
+    	</div><!-- end selectDesired -->
+	</body>
+</html>

@@ -1,0 +1,202 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="./lib/CSInterface.js"></script>
+    <script src="./lib/jquery-3.2.1.js"></script>
+    <script src="./js/ext.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link id="ppstyle" rel="stylesheet" type="text/css" href="css/style.css">
+       
+    <title>Render Manager</title>
+    
+  </head>
+
+  <body onLoad="onLoaded()">
+  <div class="container">
+        <div class="panel-group" id="accordion">
+
+            <section class="panel" id="shows">
+                <span class="titles">Show Scripts</span>
+                <span class="render_span">Show <select id="showList">
+                    <!-- <option value="selectionTitle">Select Group</option> -->
+                    <option value="TA">Total Access</option>  <!-- render farm + design25 -->
+                    <option value="GameDay">Game Day</option>  <!-- all machines + design25 -->
+                    <option value="GMF">Good Morning Football</option>  <!-- all machines - design25 -->
+                </select></span><!-- end container: deadlineGroups -->
+                <hr class="divLine" id="divLine_dataType">
+
+                <ul class="scriptList" id="scripts" style="list-style-type:none">
+                    <li>INSTL PLYR</li>
+                    <li>INSTL PLYR SPLTY</li>
+                    <li>CUTLINES</li>
+                    <li>BIO CRD 1PG</li>
+                    <li>INSTL PLYR</li>
+                </ul>
+                <button class="btnGroup2" id="btn_refresh">Refresh</button>
+            </section><!-- end container: shows -->
+            <!-- <button id="popAlert" onClick="evalScript('$._ext_script.popAlert()')">Pop An Alert</button> -->
+            
+            
+            <section class="panel" id="data">
+                <span class="titles">Data Type</span>
+                <div id="dataSelection">
+                    <div class="data-select" id="CSV_spacing"><label><input class="radio_checkbox" id="csv" type="radio" name="dataType" value="csv" checked>CSV<label></div>
+                    <div class="data-select" id="CSV_spacing"><label><input class="radio_checkbox" id="json" type="radio" name="dataType" value="json">Feed<label></div>
+                    <div class="data-select"><label><input class="radio_checkbox" id="googleSheets" type="radio" name="dataType" value="googleSheets">GS<label></div>
+                    <div id="collapseCSV" class="panel-collapse">
+                        <hr class="divLine" id="divLine_dataType">
+                        <button class="btnGroup1" id="btn_selectDataFile">Select Data File</button>
+                    </div>
+                    <div class="panel-collapse collapse" id="collapseFeed">
+                        <hr class="divLine" id="divLine_dataType">
+
+                        <!-- If you want radio buttons set type="radio" and give them the same name -->
+                        <div id="selectGroup">
+                            <div class="input_all"><label><input class="radio_checkbox" value="3800" type="checkbox" name="select[]" checked>Select All</label></div>
+                            <div class="input_all"><label><input class="radio_checkbox" value="0200" type="checkbox" name="select[]">Select None</label></div>
+                        </div>
+
+                        <!-- or if you want checkboxes so that you can get multiple items give them a name as an array -->
+                        <div class="row block-checkboxes" id="selectDesired">
+                            <div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3800" type="checkbox" name="teams[]">ARI</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0200" type="checkbox" name="teams[]">ATL</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0610" type="checkbox" name="teams[]">BUF</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0325" type="checkbox" name="teams[]">BAL</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0750" type="checkbox" name="teams[]">CAR</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0810" type="checkbox" name="teams[]">CHI</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0920" type="checkbox" name="teams[]">CIN</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="1050" type="checkbox" name="teams[]">CLE</label></div>
+                            </div>
+                        </div>
+
+                        <div class="row block-checkboxes" id="selectDesired">
+                            <div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="1200" type="checkbox" name="teams[]">DAL</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="1400" type="checkbox" name="teams[]">DEN</label></div>
+                                <div class="col align-self-start" lass="input_span"><label><input class="radio_checkbox" value="1540" type="checkbox" name="teams[]">DET</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="1800" type="checkbox" name="teams[]">GB</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2120" type="checkbox" name="teams[]">HOU</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2200" type="checkbox" name="teams[]">IND</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2250" type="checkbox" name="teams[]">JAX</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2310" type="checkbox" name="teams[]">KC</label></div>
+                            </div>
+                        </div>
+
+                        <div class="row block-checkboxes" id="selectDesired">
+                            <div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2510" type="checkbox" name="teams[]">LA</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="4400" type="checkbox" name="teams[]">LAC</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2700" type="checkbox" name="teams[]">MIA</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3000" type="checkbox" name="teams[]">MIN</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3200" type="checkbox" name="teams[]">NE</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3300" type="checkbox" name="teams[]">NO</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3410" type="checkbox" name="teams[]">NYG</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3430" type="checkbox" name="teams[]">NYJ</label></div>
+                            </div>
+                        </div>
+
+                        <div class="row block-checkboxes" id="selectDesired">
+                            <div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2520" type="checkbox" name="teams[]">OAK</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3700" type="checkbox" name="teams[]">PHI</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3900" type="checkbox" name="teams[]">PIT</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="4600" type="checkbox" name="teams[]">SEA</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="4500" type="checkbox" name="teams[]">SF</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="4900" type="checkbox" name="teams[]">TB</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2100" type="checkbox" name="teams[]">TEN</label></div>
+                                <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="5110" type="checkbox" name="teams[]">WAS</label></div>
+                            </div>   
+                        </div>
+
+                    </div><!-- end div: collapseFeed -->
+                </div><!-- end div: dataSelection -->
+            </section><!-- end container: data -->
+
+
+            <section class="panel" id="renderManager">
+                <span class="titles">Batch Location</span>
+                <div id="renderManagerSelect">
+                    <span class="input_span" id="AE_spacing"><input class="radio_checkbox" id="presetBatch" type="radio" name="batchLocation" value="presetBatch" checked>Preset</span>
+                    <span class="input_span"><input class="radio_checkbox" id="customBatch" type="radio" name="batchLocation" value="customBatch">Custom</span>
+                    <div id="collapseBatch" class="panel-collapse collapse">
+                        <hr class="divLine" id="divLine_dataType">
+                        <button class="btnGroup1" id="btn_watchLocation">Select Custom Batch Location</button>
+                    </div>
+                    <!-- <span class="dirPath" id="batchPath">/Volumes/GFXM1/XRENDERFARM/AE_Renders/</span> -->
+                </div>
+            </section><!-- end container: batchLocation -->
+
+
+            <section class="panel" id="renderManager">
+                <span class="titles">Render Location</span>
+                <div id="renderManagerSelect">
+                    <span class="input_span" id="AE_spacing"><input class="radio_checkbox" id="presetRender" type="radio" name="renderLocation" value="presetRender" checked>Preset</span>
+                    <span class="input_span"><input class="radio_checkbox" id="customRender" type="radio" name="renderLocation" value="customRender">Custom</span>
+                    <div id="collapseRender" class="panel-collapse collapse">
+                        <hr class="divLine" id="divLine_dataType">
+                        <button class="btnGroup1" id="btn_renderLocation">Select Render Location</button>
+                    </div>
+                    <!-- <span class="dirPath" id="renderPath">/Users/design25/Desktop/02 Render Test/</span> -->
+                </div>
+            </section><!-- end container: renderLocation -->
+
+
+            <section class="panel" id="renderManager">
+                <span class="titles">Render Manager</span>
+                <div id="renderManagerSelect">
+                    <span class="input_span" id="AE_spacing"><input class="radio_checkbox" id="ae" type="radio" name="renderEngine" value="ae" checked>After Effects</span>
+                    <span class="input_span"><input class="radio_checkbox" id="deadline" type="radio" name="renderEngine" value="deadline">Deadline</span>
+                    <div id="collapseAE" class="panel-collapse">
+                        <hr class="divLine" id="divLine_dataType">
+                        <span class="subtitles">When batch is complete</span>
+                        <span class="input_span"><input class="radio_checkbox" id="startRender" type="checkbox" name="postBatch">Start Render</span>
+                    </div>
+                    <div id="collapseDeadline" class="panel-collapse collapse">
+                        <hr class="divLine" id="divLine_dataType">
+                        <div id="priorityDiv">
+                            <span class="input_span">Priority <input type="number" id="priority" value="50" min="1" max="100"></span>
+                        </div>
+                        
+                        <div id="groupDiv">
+                            <span class="render_span">Group <select id="groupList">
+                                <!-- <option value="selectionTitle">Select Group</option> -->
+                                <option value="ae_farm">Render Farm</option>  <!-- render farm + design25 -->
+                                <option value="ae_scripts">Shawn All</option>  <!-- all machines + design25 -->
+                                <option value="ae_renders">All Machines</option>  <!-- all machines - design25 -->
+                            </select></span><!-- end container: deadlineGroups -->
+                        </div>
+
+                        <div id="poolDiv">
+                            <span class="render_span">Pool <select id="poolList">
+                                <!-- <option value="selectionTitle">Select Pool</option> -->
+                                <option value="shawn_primary">Cans Only</option> 
+                                <option value="grfx_all">All Machines</option>
+                                <option value="shawn_secondary">Towers Only</option>
+                            </select></span><!-- end container: deadlinePools -->
+                        </div>
+                    </div>  <!-- end collapseDeadline -->
+                </div>
+            </section><!-- end container: renderManager -->
+              
+            
+            <section class="panel" id="submit">
+                <button class="btnGroup2" id="btn_reset" onClick="evalScript('$._ext_SB.reset()')">Reset</button>
+                <button class="btnGroup2" id="btn_batch" onClick="evalScript('$._ext_SB.batch()')">Batch</button>
+            </section><!-- end container: submit -->
+        </div> <!-- end panel-group -->
+        
+    </div><!-- end container -->
+
+  </body>
+
+</html>
+
+
+
+
+
+
