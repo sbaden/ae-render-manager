@@ -75,11 +75,11 @@ div {
 }
 
 
-/*.render_span {
+.dropDown {
 	width:100%;
 	display:inline-block;
 	font-size: 1.1em;
-}*/
+}
 
 .divLine {
 	border-width: 1px;
@@ -121,6 +121,18 @@ button.btnGroup2 {
 	width:45%;
 }
 
+button.dropdown-toggle {
+	font-size: 1.1em;
+	/*font-weight: bold;*/
+	color: #CCC;
+	background-color:#1F1F1F;
+}
+
+.dropdown-menu {
+	font-size: 1.1em;
+	font-weight: bold;
+	background-color:#CCC;
+}
 
 label {
 	/*display:inline-block;*/
@@ -144,6 +156,17 @@ select {
 	width:100%;
 	margin-bottom: 5px;
 }
+
+/*.list-group {
+	color: #808080;
+}*/
+
+.list-group-item {
+	color: #995900;
+	border-color: #333333;
+	background-color: #1F1F1F;
+}
+
 
 #scripts {
 	margin-bottom: 15px;
