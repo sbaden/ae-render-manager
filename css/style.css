@@ -116,22 +116,31 @@ button {
 	background-color: #1F1F1F;
 }
 
-button.btnGroup2 {
-	/*background-color:#1F1F1F;*/
+/*button.btnGroup2 {
 	width:45%;
-}
+}*/
 
 button.dropdown-toggle {
 	font-size: 1.1em;
 	/*font-weight: bold;*/
 	color: #CCC;
-	background-color:#1F1F1F;
+	background-color:#4D4D4D;
+}
+
+
+button.close {
+	font-size: 1.2em;
+	width: 10%;
+	float: right;
+	/*font-weight: bold;*/
+	/*color: #CCC;*/
+	/*background-color:#4D4D4D;*/
 }
 
 .dropdown-menu {
 	font-size: 1.1em;
 	font-weight: bold;
-	background-color:#CCC;
+	background-color:#B3B3B3;
 }
 
 label {
@@ -250,9 +259,9 @@ select {
 	margin-bottom: 20px;
 }
 
-#btn_reset { float:left; }
+/*#btn_reset { float:left; }
 
-#btn_batch { float:right; }
+#btn_batch { float:right; }*/
 
 
 

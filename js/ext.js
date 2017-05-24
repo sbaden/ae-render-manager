@@ -4,44 +4,78 @@ function onLoaded() {
     var appName = csInterface.hostEnvironment.appName;
     
     if(appName != "FLPR"){
-    	loadJSX();
+        loadJSX();
     }    
 }
 
 $(document).ready(function(){
-	//////// DATA
+    //////// DATA
+    $('.dropdown-menu li a').on('click', function(){
+        $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+        $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+    });
+
+    $('#showDropdown').on('click', function(){
+        $('#collapseScripts:hidden').show('slow');
+    });  
+
+
+    //////// DATA TYPE
     $('#csv').click(function(){
         $('#collapseCSV:hidden').show('slow');
         $('#collapseFeed').hide('slow');
     });
 
-    $('#json').click(function(){
-    	$('#collapseFeed').show('fast');
+    $('#json').on('click', function(){
+        $('#collapseFeed').show('fast');
         $('#collapseCSV').hide('fast');
     });
 
-    $('#googleSheets').click(function(){
+    $('#googleSheets').on('click', function(){
         $('#collapseCSV').hide('slow');
+        $('#collapseFeed').hide('slow');
+
+        $('.modal-title').text('FEATURE:');
+        $('#modal-text').text('Google Sheets has not yet been connected');
+        $('#myModal').modal('show');
+
+        $('#csv').prop('checked', true);
+        $('#collapseCSV:hidden').show('slow');
         $('#collapseFeed').hide('slow');
     });
 
+    // TEAM CHECKBOXES
+    $('#selectall').prop('checked', true);
+    $(".case").prop('checked', $('#selectall').prop('checked'));
+
+    $('input[name=teams]').on('click', function() { // Remove all check properties
+        $('#selectall').prop('checked', false);
+    });
+
+    $('#selectall').on('click', function() {    // JS for Check/Uncheck all CheckBoxes by Checkbox //
+        $(".case").prop('checked', $("#selectall").prop('checked'));
+    });
+
+
     //////// BATCH
-    $('#presetBatch').click(function(){
+    $('#presetBatch').on('click', function(){
         $('#collapseBatch').hide('slow');
     });
 
-    $('#customBatch').click(function(){
+    $('#customBatch').on('click', function(){
         $('#collapseBatch').show('slow');
     });
 
+
     //////// RENDER
-    $('#presetRender').click(function(){
+    $('#presetRender').on('click', function(){
         $('#collapseRender').hide('slow');
     });
 
-    $('#customRender').click(function(){
+    $('#customRender').on('click', function(){
         $('#collapseRender').show('slow');
     });
+
 
     //////// RENDER MANAGER
     $('#ae').click(function(){
@@ -49,10 +83,48 @@ $(document).ready(function(){
         $('#collapseDeadline').hide('slow');
     });
 
-    $('#deadline').click(function(){
+    $('#deadline').on('click', function(){
         $('#collapseDeadline').show('slow');
         $('#collapseAE').hide('slow');
     });
+
+
+    //////// SUBMIT
+    $('#btn_reset').on('click', function(){
+        evalScript('$._ext_SB.reset()');
+    });
+
+    $('#btn_batch').on('click', function(){
+        evalScript('$._ext_SB.batch()');
+    });
+
+    var $priority = $('input[type=number]');
+    $priority.on('focusout', function(){
+        $value = $priority.val();
+        if($.isNumeric($value)){
+            if($value < 1 || $value > 100){
+                $priority.val(50);
+                // alert('Value must be between 1 - 100');
+                $('.modal-title').text('ERROR:');
+                $('#modal-text').text('Value must be between 1 - 100');
+                $('#myModal').modal('show');
+            }
+        }
+        else{
+            $priority.val(50);
+            $('.modal-title').text('ERROR:');
+            $('#modal-text').text('A valid number must be entered');
+            $('#myModal').modal('show');
+            // alert('Not a valid number');
+        }
+        
+        // alert($priority.val());
+    });
+
+
+
+
+
 
 });
 
@@ -68,44 +140,44 @@ function loadJSX() {
 }
 
 function evalScript(script, callback) {
-	
-	var profileUI = {
-		script: '',
-		CSV: {
-			csv: 	$('#csv')[0].checked,			// PRODUCER GENERATED
-			feed: 	$('#json')[0].checked,			// NFL FEEDS
-			gs: 	$('#googleSheets')[0].checked,	// GOOGLE SHEETS
-			// dataFile: '',
-		},
-		batch: {
-			preset: $('#presetBatch')[0].checked,
-			custom: $('#customBatch')[0].checked,
-			// batchLoc: '',
-		},
-		render: {
-			preset: $('#presetRender')[0].checked,
-			custom: $('#customRender')[0].checked,
-			// renderLoc: '',
-		},
-		manager: {
-			ae: {
-				control: 	$('#ae')[0].checked,
-				start: 		$('#startRender')[0].checked,
-			},
-			deadline: {
-				control: 	$('#deadline')[0].checked,
-				priority: 	$('#priority').val(),
-				group: 		$('#groupList').val(),
-				pool: 		$('#poolList').val(),
-			},
-		},
-	}
+    
+    var profileUI = {
+        script: '',
+        CSV: {
+            csv:    $('#csv')[0].checked,           // PRODUCER GENERATED
+            feed:   $('#json')[0].checked,          // NFL FEEDS
+            gs:     $('#googleSheets')[0].checked,  // GOOGLE SHEETS
+            // dataFile: '',
+        },
+        batch: {
+            preset: $('#presetBatch')[0].checked,    // PRE-DETERMINED/HARDCODED LOCATION
+            custom: $('#customBatch')[0].checked,    // USER CHOOSES LOCATION
+            // batchLoc: '',
+        },
+        render: {
+            preset: $('#presetRender')[0].checked,   // PRE-DETERMINED/HARDCODED LOCATION
+            custom: $('#customRender')[0].checked,   // USER CHOOSES LOCATION
+            // renderLoc: '',
+        },
+        manager: {
+            ae: {
+                control:    $('#ae')[0].checked,
+                start:      $('#startRender')[0].checked,
+            },
+            deadline: {
+                control:    $('#deadline')[0].checked,
+                priority:   $('#priority').val(),
+                group:      $('#groupList').val(),
+                pool:       $('#poolList').val(),
+            },
+        },
+    }
 
-	// alert(profileUI.data.csv +', '+ profileUI.data.feed +', '+ profileUI.data.gs);
-	// alert(profileUI.batch.preset +', '+ profileUI.batch.custom);
-	// alert(profileUI.manager.ae.control +', '+ profileUI.manager.deadline.control);
-	// alert(profileUI.manager.deadline.priority);
-	// alert(profileUI.manager.deadline.group +', '+ profileUI.manager.deadline.pool);
+    // alert(profileUI.data.csv +', '+ profileUI.data.feed +', '+ profileUI.data.gs);
+    // alert(profileUI.batch.preset +', '+ profileUI.batch.custom);
+    alert('AE: ' + profileUI.manager.ae.control +', Deadline: '+ profileUI.manager.deadline.control);
+    // alert(profileUI.manager.deadline.priority);
+    // alert(profileUI.manager.deadline.group +', '+ profileUI.manager.deadline.pool);
 
     new CSInterface().evalScript(script, callback);
 }

@@ -12,33 +12,59 @@
        
     <title>Render Manager</title>
     
-  </head>
+    </head>
 
-  <body onLoad="onLoaded()">
-      <div class="container">
+    <body onLoad="onLoaded()">
+        <div class="container">
             <div class="panel-group" id="accordion">
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                    
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title"></h4>
+                            </div>
+                            <div class="modal-body">
+                                <p id="modal-text"></p>
+                            </div>
+                            <!-- <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
 
                 <section class="panel" id="shows">
                     <span class="titles">Show Scripts</span>
                     <div class="container">
                         <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Shows <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Total Access</a></li>
-                                <li><a href="#">GameDay</a></li>
-                                <li><a href="#">GMF</a></li>
+                            <button class="btn btn-default dropdown-toggle" id="showDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Shows <span class="caret"></span></button>
+                            <ul class="dropdown-menu" aria-labelledby="showDropdown">
+                                <li><a href="#" data-value="Total Access">Total Access</a></li>
+                                <li><a href="#" data-value="GameDay">GameDay</a></li>
+                                <li><a href="#" data-value="GMF">GMF</a></li>
                             </ul>
                         </div>
                     </div>
-                    <hr class="divLine" id="divLine_dataType">
 
-                    <ul class="list-group" class="scriptList" id="scripts">
-                        <a href="#" class="list-group-item list-group-item-action">INSTL PLYR</a>
-                        <a href="#" class="list-group-item list-group-item-action">INSTL PLYR SPLTY</a>
-                        <a href="#" class="list-group-item list-group-item-action">CUTLINES</a>
-                        <a href="#" class="list-group-item list-group-item-action">BIO CRD 1PG</a>
-                        <a href="#" class="list-group-item list-group-item-action">INSTL PLYR</a>
-                    </ul>   
+                    <div class="panel-collapse collapse" id="collapseScripts">
+                        <div class="container">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" id="scriptDropdown type="button" data-toggle="dropdown">Scripts <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">INSTL PLYR</a></li>
+                                    <li><a href="#">INSTL PLYR SPLTY</a></li>
+                                    <li><a href="#">CUTLINES</a></li>
+                                    <li><a href="#">BIO CRD 1PG</a></li>
+                                    <li><a href="#">INSTL PLYR</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
                     <button class="btnGroup2" id="btn_refresh">Refresh</button>
                 </section><!-- end container: shows -->
@@ -60,60 +86,60 @@
 
                             <!-- If you want radio buttons set type="radio" and give them the same name -->
                             <div id="selectGroup">
-                                <div class="input_all"><label><input class="radio_checkbox" value="3800" type="checkbox" name="select[]" checked>Select All</label></div>
-                                <div class="input_all"><label><input class="radio_checkbox" value="0200" type="checkbox" name="select[]">Select None</label></div>
+                                <div class="input_all"><label><input class="radio_checkbox" id="selectall" value="3800" type="checkbox" name="select[]">All</label></div>
+                                <!-- <div class="input_all"><label><input class="radio_checkbox" value="0200" type="checkbox" name="select[]">Select None</label></div> -->
                             </div>
 
                             <!-- or if you want checkboxes so that you can get multiple items give them a name as an array -->
                             <div class="row block-checkboxes" id="selectDesired">
                                 <div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3800" type="checkbox" name="teams[]">ARI</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0200" type="checkbox" name="teams[]">ATL</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0610" type="checkbox" name="teams[]">BUF</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0325" type="checkbox" name="teams[]">BAL</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0750" type="checkbox" name="teams[]">CAR</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0810" type="checkbox" name="teams[]">CHI</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="0920" type="checkbox" name="teams[]">CIN</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="1050" type="checkbox" name="teams[]">CLE</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="3800" type="checkbox" name="teams">ARI</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="0200" type="checkbox" name="teams">ATL</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="0610" type="checkbox" name="teams">BUF</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="0325" type="checkbox" name="teams">BAL</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="0750" type="checkbox" name="teams">CAR</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="0810" type="checkbox" name="teams">CHI</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="0920" type="checkbox" name="teams">CIN</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="1050" type="checkbox" name="teams">CLE</label></div>
                                 </div>
                             </div>
 
                             <div class="row block-checkboxes" id="selectDesired">
                                 <div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="1200" type="checkbox" name="teams[]">DAL</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="1400" type="checkbox" name="teams[]">DEN</label></div>
-                                    <div class="col align-self-start" lass="input_span"><label><input class="radio_checkbox" value="1540" type="checkbox" name="teams[]">DET</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="1800" type="checkbox" name="teams[]">GB</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2120" type="checkbox" name="teams[]">HOU</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2200" type="checkbox" name="teams[]">IND</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2250" type="checkbox" name="teams[]">JAX</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2310" type="checkbox" name="teams[]">KC</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="1200" type="checkbox" name="teams">DAL</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="1400" type="checkbox" name="teams">DEN</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="1540" type="checkbox" name="teams">DET</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="1800" type="checkbox" name="teams">GB</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2120" type="checkbox" name="teams">HOU</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2200" type="checkbox" name="teams">IND</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2250" type="checkbox" name="teams">JAX</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2310" type="checkbox" name="teams">KC</label></div>
                                 </div>
                             </div>
 
                             <div class="row block-checkboxes" id="selectDesired">
                                 <div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2510" type="checkbox" name="teams[]">LA</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="4400" type="checkbox" name="teams[]">LAC</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2700" type="checkbox" name="teams[]">MIA</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3000" type="checkbox" name="teams[]">MIN</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3200" type="checkbox" name="teams[]">NE</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3300" type="checkbox" name="teams[]">NO</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3410" type="checkbox" name="teams[]">NYG</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3430" type="checkbox" name="teams[]">NYJ</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2510" type="checkbox" name="teams">LA</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="4400" type="checkbox" name="teams">LAC</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2700" type="checkbox" name="teams">MIA</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="3000" type="checkbox" name="teams">MIN</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="3200" type="checkbox" name="teams">NE</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="3300" type="checkbox" name="teams">NO</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="3410" type="checkbox" name="teams">NYG</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="3430" type="checkbox" name="teams">NYJ</label></div>
                                 </div>
                             </div>
 
                             <div class="row block-checkboxes" id="selectDesired">
                                 <div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2520" type="checkbox" name="teams[]">OAK</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3700" type="checkbox" name="teams[]">PHI</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="3900" type="checkbox" name="teams[]">PIT</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="4600" type="checkbox" name="teams[]">SEA</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="4500" type="checkbox" name="teams[]">SF</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="4900" type="checkbox" name="teams[]">TB</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="2100" type="checkbox" name="teams[]">TEN</label></div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox" value="5110" type="checkbox" name="teams[]">WAS</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2520" type="checkbox" name="teams">OAK</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="3700" type="checkbox" name="teams">PHI</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="3900" type="checkbox" name="teams">PIT</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="4600" type="checkbox" name="teams">SEA</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="4500" type="checkbox" name="teams">SF</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="4900" type="checkbox" name="teams">TB</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2100" type="checkbox" name="teams">TEN</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="5110" type="checkbox" name="teams">WAS</label></div>
                                 </div>   
                             </div>
 
@@ -139,9 +165,9 @@
                 <section class="panel" id="renderManager">
                     <span class="titles">Render Location</span>
                     <div id="renderManagerSelect">
-                        <span class="input_span" id="AE_spacing"><input class="radio_checkbox" id="presetRender" type="radio" name="renderLocation" value="presetRender" checked>Preset</span>
-                        <span class="input_span"><input class="radio_checkbox" id="customRender" type="radio" name="renderLocation" value="customRender">Custom</span>
-                        <div id="collapseRender" class="panel-collapse collapse">
+                        <span class="input_span" id="AE_spacing"><input class="radio_checkbox" id="presetRender" type="radio" name="renderLocation" value="presetRender">Preset</span>
+                        <span class="input_span"><input class="radio_checkbox" id="customRender" type="radio" name="renderLocation" value="customRender" checked>Custom</span>
+                        <div id="collapseRender" class="panel-collapse">
                             <hr class="divLine" id="divLine_dataType">
                             <button class="btnGroup1" id="btn_renderLocation">Select Render Location</button>
                         </div>
@@ -165,24 +191,33 @@
                             <hr class="divLine" id="divLine_dataType">
                             <div id="priorityDiv">
                                 <span class="input_span">Priority <input type="number" id="priority" value="50" min="1" max="100"></span>
+                                <!-- <span class="input_span">Priority <input type="text" class="form-control bfh-number" id="priority" value="50" data-min="1" data-max="100"></span> -->
                             </div>
                             
-                            <div id="groupDiv">
-                                <span class="dropDown">Group <select id="groupList">
-                                    <!-- <option value="selectionTitle">Select Group</option> -->
-                                    <option value="ae_farm">Render Farm</option>  <!-- render farm + design25 -->
-                                    <option value="ae_scripts">Shawn All</option>  <!-- all machines + design25 -->
-                                    <option value="ae_renders">All Machines</option>  <!-- all machines - design25 -->
-                                </select></span><!-- end container: deadlineGroups -->
+                            <div id="poolDiv">
+                                <div class="container">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" id="poolDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Pool <span class="caret"></span></button>
+                                        <ul class="dropdown-menu" aria-labelledby="poolDropdown">
+                                            <li><a href="#" data-value="shawn_primary">Cans Only</a></li>
+                                            <li><a href="#" data-value="shawn_secondary">Towers Only</a></li>
+                                            <li><a href="#" data-value="grfx_all">All Machines</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div id="poolDiv">
-                                <span class="dropDown">Pool <select id="poolList">
-                                    <!-- <option value="selectionTitle">Select Pool</option> -->
-                                    <option value="shawn_primary">Cans Only</option> 
-                                    <option value="grfx_all">All Machines</option>
-                                    <option value="shawn_secondary">Towers Only</option>
-                                </select></span><!-- end container: deadlinePools -->
+                            <div id="groupDiv">
+                                <div class="container">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" id="groupDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Group <span class="caret"></span></button>
+                                        <ul class="dropdown-menu" aria-labelledby="groupDropdown">
+                                            <li><a href="#" data-value="ae_farm">Render Farm</a></li>
+                                            <li><a href="#" data-value="ae_scripts">Shawn All</a></li>
+                                            <li><a href="#" data-value="ae_renders">Machines All</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>  <!-- end collapseDeadline -->
@@ -190,7 +225,7 @@
                 </section><!-- end container: renderManager -->
                   
                 <section class="panel" id="submit">
-                    <button class="btnGroup2" id="btn_reset">Reset</button>
+                    <!-- <button class="btnGroup2" id="btn_reset">Reset</button> -->
                     <button class="btnGroup2" id="btn_batch">Batch</button>
                 </section><!-- end container: submit -->
 
