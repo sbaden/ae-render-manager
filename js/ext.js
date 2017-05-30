@@ -4,12 +4,12 @@ function onLoaded() {
     var appName = csInterface.hostEnvironment.appName;
     
     if(appName != "FLPR"){
-        loadJSX();
+    	loadJSX();
     }    
 }
 
 $(document).ready(function(){
-    //////// DATA
+	//////// DATA
     $('.dropdown-menu li a').on('click', function(){
         $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
         $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
@@ -27,7 +27,7 @@ $(document).ready(function(){
     });
 
     $('#json').on('click', function(){
-        $('#collapseFeed').show('fast');
+    	$('#collapseFeed').show('fast');
         $('#collapseCSV').hide('fast');
     });
 
@@ -88,16 +88,6 @@ $(document).ready(function(){
         $('#collapseAE').hide('slow');
     });
 
-
-    //////// SUBMIT
-    $('#btn_reset').on('click', function(){
-        evalScript('$._ext_SB.reset()');
-    });
-
-    $('#btn_batch').on('click', function(){
-        evalScript('$._ext_SB.batch()');
-    });
-
     var $priority = $('input[type=number]');
     $priority.on('focusout', function(){
         $value = $priority.val();
@@ -122,9 +112,72 @@ $(document).ready(function(){
     });
 
 
+    //////// SUBMIT
+    // $('#btn_reset').on('click', function(){
+    //     evalScript('$._ext_SB.reset()');
+    // });
+
+    $('#btn_batch').on('click', function(){
+
+        var profileUI = {
+            script: '',
+            data: {
+                csv:    $('#csv')[0].checked,           // PRODUCER GENERATED
+                feed:   $('#json')[0].checked,          // NFL FEEDS
+                gs:     $('#googleSheets')[0].checked   // GOOGLE SHEETS
+                // dataFile: '',
+            },
+            batch: {
+                preset: $('#presetBatch')[0].checked,   // PRE-DETERMINED/HARDCODED LOCATION
+                custom: $('#customBatch')[0].checked    // USER CHOOSES LOCATION
+                // batchLoc: '',
+            },
+            render: {
+                preset: $('#presetRender')[0].checked,  // PRE-DETERMINED/HARDCODED LOCATION
+                custom: $('#customRender')[0].checked   // USER CHOOSES LOCATION
+                // renderLoc: '',
+            },
+            manager: {
+                ae: {
+                    control:    $('#ae')[0].checked,
+                    start:      $('#startRender')[0].checked
+                },
+                deadline: {
+                    control:    $('#deadline')[0].checked,
+                    priority:   $('#priority').val(),           // *FIX: UNDEFINED
+                    pool:       $('#poolList').val(),           // *FIX: UNDEFINED
+                    group:      $('#groupList').val()           // *FIX: UNDEFINED
+                }
+            }
+        }
+
+        ////////////////// VERIFY PROFILE VALUES /////////////////////
+        /*var messageStr = 'Profile has been submitted\n\n';
+
+        messageStr +=   'CSV: ' + profileUI.data.csv +', Feed: '+ profileUI.data.feed +', GS: '+ profileUI.data.gs + '\n' +
+                        'Batch Preset: ' + profileUI.batch.preset +', Batch Custom: '+ profileUI.batch.custom + '\n' +
+                        'Render Preset: ' + profileUI.render.preset +', Render Custom: '+ profileUI.render.custom + '\n' +
+                        'AE: ' + profileUI.manager.ae.control +', Deadline: '+ profileUI.manager.deadline.control + '\n' +
+                        'AE Start Render: ' + profileUI.manager.ae.start + '\n' +
+                        'Deadline: Priority: ' + profileUI.manager.deadline.priority + ', Pool: ' + profileUI.manager.deadline.pool + ', Group: ' + profileUI.manager.deadline.group;
 
 
+        $('.modal-title').text('MESSAGE:');
+        $('#modal-text').text(messageStr);
+        $('#myModal').modal('show');*/
+        /////////////////////////////////////////////////////////////
 
+        var csInterface = new CSInterface();
+        csInterface.evalScript('$._ext_SB.batch("' + JSON.stringify(profileUI).replace(/"/g,'\\"') + '")' );    // .replace(/"/g,'\\"') ignores all internal quotes from stringify so it can be passed as a valid string
+
+    });
+
+    // TEMP BUTTON FOR DEV: RELOADS EXTENTION PANEL
+    $("#btn_reload").click(reloadPanel);
+
+    function reloadPanel() {
+        location.reload();
+    }
 
 });
 
@@ -139,45 +192,13 @@ function loadJSX() {
     csInterface.evalScript('$._ext.evalFiles("' + extensionRoot + '")');
 }
 
-function evalScript(script, callback) {
-    
-    var profileUI = {
-        script: '',
-        CSV: {
-            csv:    $('#csv')[0].checked,           // PRODUCER GENERATED
-            feed:   $('#json')[0].checked,          // NFL FEEDS
-            gs:     $('#googleSheets')[0].checked,  // GOOGLE SHEETS
-            // dataFile: '',
-        },
-        batch: {
-            preset: $('#presetBatch')[0].checked,    // PRE-DETERMINED/HARDCODED LOCATION
-            custom: $('#customBatch')[0].checked,    // USER CHOOSES LOCATION
-            // batchLoc: '',
-        },
-        render: {
-            preset: $('#presetRender')[0].checked,   // PRE-DETERMINED/HARDCODED LOCATION
-            custom: $('#customRender')[0].checked,   // USER CHOOSES LOCATION
-            // renderLoc: '',
-        },
-        manager: {
-            ae: {
-                control:    $('#ae')[0].checked,
-                start:      $('#startRender')[0].checked,
-            },
-            deadline: {
-                control:    $('#deadline')[0].checked,
-                priority:   $('#priority').val(),
-                group:      $('#groupList').val(),
-                pool:       $('#poolList').val(),
-            },
-        },
-    }
+// function evalScript(script, callback) {
 
-    // alert(profileUI.data.csv +', '+ profileUI.data.feed +', '+ profileUI.data.gs);
-    // alert(profileUI.batch.preset +', '+ profileUI.batch.custom);
-    alert('AE: ' + profileUI.manager.ae.control +', Deadline: '+ profileUI.manager.deadline.control);
-    // alert(profileUI.manager.deadline.priority);
-    // alert(profileUI.manager.deadline.group +', '+ profileUI.manager.deadline.pool);
+	// alert(profileUI.data.csv +', '+ profileUI.data.feed +', '+ profileUI.data.gs);
+	// alert(profileUI.batch.preset +', '+ profileUI.batch.custom);
+	//alert('AE: ' + profileUI.manager.ae.control +', Deadline: '+ profileUI.manager.deadline.control);
+	// alert(profileUI.manager.deadline.priority);
+	// alert(profileUI.manager.deadline.group +', '+ profileUI.manager.deadline.pool);
 
-    new CSInterface().evalScript(script, callback);
-}
+//     new CSInterface().evalScript(script, callback);
+// }
