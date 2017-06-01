@@ -124,7 +124,8 @@ $(document).ready(function(){
             data: {
                 csv:    $('#csv')[0].checked,           // PRODUCER GENERATED
                 feed:   $('#json')[0].checked,          // NFL FEEDS
-                gs:     $('#googleSheets')[0].checked   // GOOGLE SHEETS
+                gs:     $('#googleSheets')[0].checked,   // GOOGLE SHEETS
+                teams:  $('input:checkbox[name=teams]:checked').map(function(){return $(this).val()}).get(), 
                 // dataFile: '',
             },
             batch: {

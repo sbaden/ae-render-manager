@@ -153,7 +153,7 @@ label {
 	margin-bottom: 20px;
 }
 
-#selectDesired {
+.selectDesired {
 	display:inline-block;
 }
 
@@ -229,7 +229,7 @@ select {
 
 /* RENDER MANAGER */
 
-#renderManagerSelect { text-align: center; }
+.renderManagerSelect { text-align: center; }
 
 #AE_spacing { margin-right: 10px; }
 

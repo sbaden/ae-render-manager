@@ -1,16 +1,16 @@
 <!doctype html>
 
 <html>
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="./lib/CSInterface.js"></script>
-    <script src="./lib/jquery-3.2.1.js"></script>
-    <script src="./js/ext.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <link id="ppstyle" rel="stylesheet" type="text/css" href="css/style.css">
-       
-    <title>Render Manager</title>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="./lib/CSInterface.js"></script>
+        <script src="./lib/jquery-3.2.1.js"></script>
+        <script src="./js/ext.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <link id="ppstyle" rel="stylesheet" type="text/css" href="css/style.css">
+           
+        <title>Render Manager</title>
     
     </head>
 
@@ -21,7 +21,6 @@
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" role="dialog">
                     <div class="modal-dialog">
-                    
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
@@ -31,14 +30,11 @@
                             <div class="modal-body">
                                 <p id="modal-text"></p>
                             </div>
-                            <!-- <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div> -->
-                        </div>
+                        </div><!-- end Modal content -->
                     </div>
-                </div>
+                </div><!-- end Modal -->
 
-                <section class="panel" id="shows">
+                <section class="panel">
                     <span class="titles">Show Scripts</span>
                     <div class="container">
                         <div class="dropdown">
@@ -54,7 +50,7 @@
                     <div class="panel-collapse collapse" id="collapseScripts">
                         <div class="container">
                             <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" id="scriptDropdown type="button" data-toggle="dropdown">Scripts <span class="caret"></span></button>
+                                <button class="btn btn-primary dropdown-toggle" id="scriptDropdown" type="button" data-toggle="dropdown">Scripts <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">INSTL PLYR</a></li>
                                     <li><a href="#">INSTL PLYR SPLTY</a></li>
@@ -66,32 +62,31 @@
                         </div>
                     </div>
 
-                    <button class="btnGroup2" id="btn_refresh">Refresh</button>
-                </section><!-- end container: shows -->
-                <!-- <button id="popAlert" onClick="evalScript('$._ext_script.popAlert()')">Pop An Alert</button> -->
+                    <button class="btnGroup2">Refresh</button>
+                </section><!-- end section: shows -->                
                 
-                
-                <section class="panel" id="data">
+                <section class="panel">
                     <span class="titles">Data Type</span>
                     <div id="dataSelection">
                         <div class="data-select" id="CSV_spacing"><label><input class="radio_checkbox" id="csv" type="radio" name="dataType" value="csv" checked>CSV<label></div>
                         <div class="data-select" id="CSV_spacing"><label><input class="radio_checkbox" id="json" type="radio" name="dataType" value="json">Feed<label></div>
                         <div class="data-select"><label><input class="radio_checkbox" id="googleSheets" type="radio" name="dataType" value="googleSheets">GS<label></div>
+
                         <div id="collapseCSV" class="panel-collapse">
                             <hr class="divLine" id="divLine_dataType">
                             <button class="btnGroup1" id="btn_selectDataFile">Select Data File</button>
                         </div>
+
                         <div class="panel-collapse collapse" id="collapseFeed">
                             <hr class="divLine" id="divLine_dataType">
 
                             <!-- If you want radio buttons set type="radio" and give them the same name -->
                             <div id="selectGroup">
-                                <div class="input_all"><label><input class="radio_checkbox" id="selectall" value="3800" type="checkbox" name="select[]">All</label></div>
-                                <!-- <div class="input_all"><label><input class="radio_checkbox" value="0200" type="checkbox" name="select[]">Select None</label></div> -->
+                                <div class="input_all"><label><input class="radio_checkbox" id="selectall" type="checkbox" name="select[]">All</label></div>
                             </div>
 
                             <!-- or if you want checkboxes so that you can get multiple items give them a name as an array -->
-                            <div class="row block-checkboxes" id="selectDesired">
+                            <div class="row block-checkboxes selectDesired">
                                 <div>
                                     <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="3800" type="checkbox" name="teams">ARI</label></div>
                                     <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="0200" type="checkbox" name="teams">ATL</label></div>
@@ -104,7 +99,7 @@
                                 </div>
                             </div>
 
-                            <div class="row block-checkboxes" id="selectDesired">
+                            <div class="row block-checkboxes selectDesired">
                                 <div>
                                     <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="1200" type="checkbox" name="teams">DAL</label></div>
                                     <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="1400" type="checkbox" name="teams">DEN</label></div>
@@ -117,7 +112,7 @@
                                 </div>
                             </div>
 
-                            <div class="row block-checkboxes" id="selectDesired">
+                            <div class="row block-checkboxes selectDesired">
                                 <div>
                                     <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2510" type="checkbox" name="teams">LA</label></div>
                                     <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="4400" type="checkbox" name="teams">LAC</label></div>
@@ -130,7 +125,7 @@
                                 </div>
                             </div>
 
-                            <div class="row block-checkboxes" id="selectDesired">
+                            <div class="row block-checkboxes selectDesired">
                                 <div>
                                     <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2520" type="checkbox" name="teams">OAK</label></div>
                                     <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="3700" type="checkbox" name="teams">PHI</label></div>
@@ -145,12 +140,12 @@
 
                         </div><!-- end div: collapseFeed -->
                     </div><!-- end div: dataSelection -->
-                </section><!-- end container: data -->
+                </section><!-- end section: data -->
 
 
-                <section class="panel" id="renderManager">
+                <section class="panel">
                     <span class="titles">Batch Location</span>
-                    <div id="renderManagerSelect">
+                    <div class="renderManagerSelect">
                         <span class="input_span" id="AE_spacing"><input class="radio_checkbox" id="presetBatch" type="radio" name="batchLocation" value="presetBatch" checked>Preset</span>
                         <span class="input_span"><input class="radio_checkbox" id="customBatch" type="radio" name="batchLocation" value="customBatch">Custom</span>
                         <div id="collapseBatch" class="panel-collapse collapse">
@@ -159,12 +154,12 @@
                         </div>
                         <!-- <span class="dirPath" id="batchPath">/Volumes/GFXM1/XRENDERFARM/AE_Renders/</span> -->
                     </div>
-                </section><!-- end container: batchLocation -->
+                </section><!-- end section: batchLocation -->
 
 
-                <section class="panel" id="renderManager">
+                <section class="panel">
                     <span class="titles">Render Location</span>
-                    <div id="renderManagerSelect">
+                    <div class="renderManagerSelect">
                         <span class="input_span" id="AE_spacing"><input class="radio_checkbox" id="presetRender" type="radio" name="renderLocation" value="presetRender">Preset</span>
                         <span class="input_span"><input class="radio_checkbox" id="customRender" type="radio" name="renderLocation" value="customRender" checked>Custom</span>
                         <div id="collapseRender" class="panel-collapse">
@@ -173,14 +168,15 @@
                         </div>
                         <!-- <span class="dirPath" id="renderPath">/Users/design25/Desktop/02 Render Test/</span> -->
                     </div>
-                </section><!-- end container: renderLocation -->
+                </section><!-- end section: renderLocation -->
 
 
-                <section class="panel" id="renderManager">
+                <section class="panel">
                     <span class="titles">Render Manager</span>
-                    <div id="renderManagerSelect">
+                    <div class="renderManagerSelect">
                         <span class="input_span" id="AE_spacing"><input class="radio_checkbox" id="ae" type="radio" name="renderEngine" value="ae" checked>After Effects</span>
                         <span class="input_span"><input class="radio_checkbox" id="deadline" type="radio" name="renderEngine" value="deadline">Deadline</span>
+
                         <div id="collapseAE" class="panel-collapse">
                             <hr class="divLine" id="divLine_dataType">
                             <span class="subtitles">When batch is complete</span>
@@ -220,22 +216,23 @@
                                 </div>
                             </div>
 
-                        </div>  <!-- end collapseDeadline -->
+                        </div><!-- end collapseDeadline -->
                     </div>
-                </section><!-- end container: renderManager -->
+                </section><!-- end section: renderManager -->
                   
                 <section class="panel" id="submit">
                     <!-- <button class="btnGroup2" id="btn_reset">Reset</button> -->
                     <button class="btnGroup2" id="btn_batch">Batch</button>
-                </section><!-- end container: submit -->
+                </section>
 
-                <section class="panel" id="panel-reload">
-                    <!-- TEMP BUTTON FOR DEV -->
+                <!-- TEMP BUTTON FOR DEVELOPMENT -->
+                <section class="panel">
                     <button class="btnGroup2" id="btn_reload">Reload Panel</button>
-                </section><!-- end container: submit -->
+                </section>
+                <!-- DISABLE AFTER DEVELOPMENT -->
 
-            </div> <!-- end panel-group -->           
-        </div><!-- end container -->
+            </div> <!-- end panel-group accordian-->           
+        </div><!-- end container main-->
     </body>
 
 </html>

@@ -7,10 +7,11 @@ $._ext_SB={
 	},
 
 	batch : function(profileUI) {
-		// alert("batch clicked!");
+		// alert("batch click!");
 		var profileUI = JSON.parse(profileUI);
-		
-		alert('CSV: ' + profileUI.data.csv);
+
+		// alert('CSV: ' + profileUI.data.csv);
+		alert('TEAMS: ' + profileUI.data.teams.length);
 
 	},
 
