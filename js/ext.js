@@ -1,32 +1,115 @@
 
-function onLoaded() {
-    var csInterface = new CSInterface();   
-    var appName = csInterface.hostEnvironment.appName;
-    
-    if(appName != "FLPR"){
-    	loadJSX();
-    }    
-}
 
 $(document).ready(function(){
+    var csInterface = new CSInterface();
+
+
+    var profileUI = {
+        jsonProfileUIRepo: '/Users/sbaden/Documents/development_AE/JSON_REPO/',
+        showDirectory: '/Users/sbaden/Documents/development_AE/SCRIPTS/03_PROJECTS/',
+        show: '',
+        script: '',
+        data: {
+            feedURL: 'http://feeds.nfl.com/feeds-rs/roster/',
+            feedRepo: '/Users/sbaden/Documents/development_AE/JSON_TEAM_REPO/'
+        },
+        batch: {
+            pathPreset: '/Users/sbaden/Documents/development_AE/AE_BATCH/',
+            pathCustom: ''
+        },
+        render: {
+            pathPreset: '/Users/sbaden/Documents/development_AE/AE_RENDER/',
+            pathCustom: ''
+        },
+        manager: {
+            ae: {},
+            deadline: {
+                pool: 'shawn_primary',
+                group: 'ae_scripts'
+            }
+        }
+    }
+
+
+    function getShowFolders(){
+        csInterface.evalScript('getTargetFolders('+ JSON.stringify(profileUI.showDirectory) +')',
+            function(result){
+                result = result.split(',');
+            
+                for(var i = 0; i< result.length; i++){
+                    $("#show-list").append('<li><a href="#">' + result[i] + '</a></li>');
+                }
+            }
+        );
+    }
+
+    function getShowScripts(){
+        csInterface.evalScript('getTargetFiles("' + JSON.stringify(profileUI).replace(/"/g,'\\"') + '")',
+            function(result){
+                result = result.split(',');
+            
+                for(var i = 0; i< result.length; i++){
+                    $("#script-list").append('<li><a href="#">' + result[i] + '</a></li>');
+                }
+            }
+        );
+    }
+
+
+    getShowFolders();
+
+
+
 	//////// DATA
-    $('.dropdown-menu li a').on('click', function(){
+    $('#show-list').on('click', 'li', function() {
+        $('#script-list').empty();
+        $('#scriptDropdown').html('Script <span class="caret"></span>');
+
+        var $presetIndex = $(this).index();
+        var $presetValue = $(this).text();
+
         $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
-        $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+        $(this).parents(".dropdown").find('.btn').val($(this).data($presetValue));
+        profileUI.show = $presetValue;
+
+        getShowScripts();
+    });
+
+    $('#script-list').on('click', 'li', function() {
+        var $presetIndex = $(this).index();
+        var $presetValue = $(this).text();
+
+        $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+        $(this).parents(".dropdown").find('.btn').val($(this).data($presetValue));
+        profileUI.script = $presetValue;
     });
 
     $('#showDropdown').on('click', function(){
         $('#collapseScripts:hidden').show('slow');
-    });  
+    });
+
+    $('#btn-refresh').on('click', function(){
+        $('#show-list').empty();
+        $('#script-list').empty();
+        getShowFolders();
+        $('#showDropdown').html('Show <span class="caret"></span>');
+        $('#scriptDropdown').html('Script <span class="caret"></span>');
+    })
 
 
     //////// DATA TYPE
     $('#csv').click(function(){
         $('#collapseCSV:hidden').show('slow');
         $('#collapseFeed').hide('slow');
+
+        // RESET FEED CHECKBOXES
+        // $('#selectall').prop('checked', true);
+        // $(".case").prop('checked', $('#selectall').prop('checked'));
     });
 
     $('#json').on('click', function(){
+        $('#csvPath').html('');
+        profileUI.data.file = '';
     	$('#collapseFeed').show('fast');
         $('#collapseCSV').hide('fast');
     });
@@ -44,6 +127,16 @@ $(document).ready(function(){
         $('#collapseFeed').hide('slow');
     });
 
+    $('#btn_selectDataFile').on('click', function(){
+        csInterface.evalScript('returnFile()',
+            function(result){
+                profileUI.data.file = result;
+                $('#csvPath').html(result);
+            }
+        );
+    });
+
+
     // TEAM CHECKBOXES
     $('#selectall').prop('checked', true);
     $(".case").prop('checked', $('#selectall').prop('checked'));
@@ -60,20 +153,42 @@ $(document).ready(function(){
     //////// BATCH
     $('#presetBatch').on('click', function(){
         $('#collapseBatch').hide('slow');
+        profileUI.batch.pathCustom = '';
+        $('#batchPath').html('');
     });
 
     $('#customBatch').on('click', function(){
         $('#collapseBatch').show('slow');
     });
 
+    $('#btn_batchLocation').on('click', function(){
+        csInterface.evalScript('returnDirectory()',
+            function(result){
+                profileUI.batch.pathCustom = result;
+                $('#batchPath').html(result);
+            }
+        );
+    });
+
 
     //////// RENDER
     $('#presetRender').on('click', function(){
         $('#collapseRender').hide('slow');
+        profileUI.render.pathCustom = '';
+        $('#renderPath').html('');
     });
 
     $('#customRender').on('click', function(){
         $('#collapseRender').show('slow');
+    });
+
+    $('#btn_renderLocation').on('click', function(){
+        csInterface.evalScript('returnDirectory()',
+            function(result){
+                profileUI.render.pathCustom = result;
+                $('#renderPath').html(result);
+            }
+        );
     });
 
 
@@ -88,90 +203,101 @@ $(document).ready(function(){
         $('#collapseAE').hide('slow');
     });
 
-    var $priority = $('input[type=number]');
-    $priority.on('focusout', function(){
-        $value = $priority.val();
-        if($.isNumeric($value)){
-            if($value < 1 || $value > 100){
-                $priority.val(50);
-                // alert('Value must be between 1 - 100');
-                $('.modal-title').text('ERROR:');
-                $('#modal-text').text('Value must be between 1 - 100');
-                $('#myModal').modal('show');
-            }
-        }
-        else{
-            $priority.val(50);
-            $('.modal-title').text('ERROR:');
-            $('#modal-text').text('A valid number must be entered');
-            $('#myModal').modal('show');
-            // alert('Not a valid number');
-        }
-        
-        // alert($priority.val());
+    $('#pool-list').on('click', 'li', function() {
+        var $presetIndex = $(this).index();
+        var $presetValue = $(this).text();
+
+        $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+        $(this).parents(".dropdown").find('.btn').val($(this).data($presetValue));
+        profileUI.manager.deadline.pool = $presetValue;
+    });
+
+    $('#group-list').on('click', 'li', function() {
+        var $presetIndex = $(this).index();
+        var $presetValue = $(this).text();
+
+        $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+        $(this).parents(".dropdown").find('.btn').val($(this).data($presetValue));
+        profileUI.manager.deadline.group = $presetValue;
+    });
+
+    var $priority = $('#fader');
+    $priority.on('input', function(){
+        // alert($('#fader').val());
+        $('#priorityValue').val($priority.val());
     });
 
 
-    //////// SUBMIT
-    // $('#btn_reset').on('click', function(){
-    //     evalScript('$._ext_SB.reset()');
-    // });
-
     $('#btn_batch').on('click', function(){
+        profileUI.data.csv      = $('#csv')[0].checked,                   // PRODUCER GENERATED
+        profileUI.data.feed     = $('#json')[0].checked,                  // NFL FEEDS
+        profileUI.data.gs       = $('#googleSheets')[0].checked,          // GOOGLE SHEETS
+        profileUI.data.teams    = $('input:checkbox[name=teams]:checked').map(function(){return $(this).val()}).get(), 
 
-        var profileUI = {
-            script: '',
-            data: {
-                csv:    $('#csv')[0].checked,           // PRODUCER GENERATED
-                feed:   $('#json')[0].checked,          // NFL FEEDS
-                gs:     $('#googleSheets')[0].checked,   // GOOGLE SHEETS
-                teams:  $('input:checkbox[name=teams]:checked').map(function(){return $(this).val()}).get(), 
-                // dataFile: '',
-            },
-            batch: {
-                preset: $('#presetBatch')[0].checked,   // PRE-DETERMINED/HARDCODED LOCATION
-                custom: $('#customBatch')[0].checked    // USER CHOOSES LOCATION
-                // batchLoc: '',
-            },
-            render: {
-                preset: $('#presetRender')[0].checked,  // PRE-DETERMINED/HARDCODED LOCATION
-                custom: $('#customRender')[0].checked   // USER CHOOSES LOCATION
-                // renderLoc: '',
-            },
-            manager: {
-                ae: {
-                    control:    $('#ae')[0].checked,
-                    start:      $('#startRender')[0].checked
-                },
-                deadline: {
-                    control:    $('#deadline')[0].checked,
-                    priority:   $('#priority').val(),           // *FIX: UNDEFINED
-                    pool:       $('#poolList').val(),           // *FIX: UNDEFINED
-                    group:      $('#groupList').val()           // *FIX: UNDEFINED
-                }
-            }
-        }
+        profileUI.batch.preset  = $('#presetBatch')[0].checked,           // PRE-DETERMINED/HARDCODED LOCATION
+        profileUI.batch.custom  = $('#customBatch')[0].checked            // USER CHOOSES LOCATION
+
+        profileUI.render.preset = $('#presetRender')[0].checked,          // PRE-DETERMINED/HARDCODED LOCATION
+        profileUI.render.custom = $('#customRender')[0].checked           // USER CHOOSES LOCATION
+
+        profileUI.manager.ae.control            = $('#ae')[0].checked,
+        profileUI.manager.ae.start              = $('#startRender')[0].checked
+
+        profileUI.manager.deadline.control      = $('#deadline')[0].checked,
+        profileUI.manager.deadline.priority     = $priority.val()
+
 
         ////////////////// VERIFY PROFILE VALUES /////////////////////
-        /*var messageStr = 'Profile has been submitted\n\n';
+        var messageStr = 'Profile has been submitted\n\n';
 
-        messageStr +=   'CSV: ' + profileUI.data.csv +', Feed: '+ profileUI.data.feed +', GS: '+ profileUI.data.gs + '\n' +
-                        'Batch Preset: ' + profileUI.batch.preset +', Batch Custom: '+ profileUI.batch.custom + '\n' +
-                        'Render Preset: ' + profileUI.render.preset +', Render Custom: '+ profileUI.render.custom + '\n' +
-                        'AE: ' + profileUI.manager.ae.control +', Deadline: '+ profileUI.manager.deadline.control + '\n' +
+        messageStr +=   'JSON ProfileUI Repo: ' + profileUI.jsonProfileUIRepo + '\n' +
+                        'Show Directory: ' + profileUI.showDirectory + '\n' +
+                        'Show: '+ profileUI.show + '\n' +
+                        'Script: '+ profileUI.script + '\n' +
+                        'CSV: ' + profileUI.data.csv + '\n' +
+                        'Feed: '+ profileUI.data.feed + '\n' +
+                        'GS: '+ profileUI.data.gs + '\n' +
+                        'CSV File: '+ profileUI.data.file + '\n' +
+                        'Feed URL: '+ profileUI.data.feedURL + '\n' +
+                        'Feed Repo: '+ profileUI.data.feedRepo + '\n' +
+                        'Teams: ' + profileUI.data.teams + '\n' +
+                        'Batch Preset: ' + profileUI.batch.preset + '\n' +
+                        'Batch Preset Path: ' + profileUI.batch.pathPreset + '\n' +
+                        'Batch Custom: '+ profileUI.batch.custom + '\n' +
+                        'Batch Custom Path: '+ profileUI.batch.pathCustom + '\n' +
+                        'Render Preset: ' + profileUI.render.preset + '\n' +
+                        'Render Preset Path: ' + profileUI.render.pathPreset + '\n' +
+                        'Render Custom: '+ profileUI.render.custom + '\n' +
+                        'Render Custom Path: '+ profileUI.render.pathCustom + '\n' +
+                        'AE: ' + profileUI.manager.ae.control + '\n' +
+                        'Deadline: '+ profileUI.manager.deadline.control + '\n' +
                         'AE Start Render: ' + profileUI.manager.ae.start + '\n' +
-                        'Deadline: Priority: ' + profileUI.manager.deadline.priority + ', Pool: ' + profileUI.manager.deadline.pool + ', Group: ' + profileUI.manager.deadline.group;
+                        'Deadline: Priority: ' + profileUI.manager.deadline.priority + '\n' +
+                        'Pool: ' + profileUI.manager.deadline.pool + '\n' +
+                        'Group: ' + profileUI.manager.deadline.group;
+
+
+        alert(messageStr);
+
+        // $('.modal-title').text('MESSAGE:');
+        // $('#modal-text').text(messageStr);
+        // $('#myModal').modal('show');
+        /////////////////////////////////////////////////////////////
 
 
         $('.modal-title').text('MESSAGE:');
-        $('#modal-text').text(messageStr);
-        $('#myModal').modal('show');*/
-        /////////////////////////////////////////////////////////////
+        
 
-        var csInterface = new CSInterface();
-        csInterface.evalScript('$._ext_SB.batch("' + JSON.stringify(profileUI).replace(/"/g,'\\"') + '")' );    // .replace(/"/g,'\\"') ignores all internal quotes from stringify so it can be passed as a valid string
+        var panelReady = verifyPanelReady(profileUI);
+        // alert(panelReady);
+
+        if(panelReady){
+            csInterface.evalScript('batch("' + JSON.stringify(profileUI).replace(/"/g,'\\"') + '")' );  // .replace(/"/g,'\\"') ignores all internal quotes from stringify so it can be passed as a valid string
+        }
 
     });
+
+
 
     // TEMP BUTTON FOR DEV: RELOADS EXTENTION PANEL
     $("#btn_reload").click(reloadPanel);
@@ -182,24 +308,6 @@ $(document).ready(function(){
 
 });
 
-    
-/**
- * Load JSX file into the scripting context of the product. All the jsx files in 
- * folder [ExtensionRoot]/jsx will be loaded. 
- */
-function loadJSX() {
-    var csInterface = new CSInterface();
-    var extensionRoot = csInterface.getSystemPath(SystemPath.EXTENSION) + "/jsx/";
-    csInterface.evalScript('$._ext.evalFiles("' + extensionRoot + '")');
-}
 
-// function evalScript(script, callback) {
 
-	// alert(profileUI.data.csv +', '+ profileUI.data.feed +', '+ profileUI.data.gs);
-	// alert(profileUI.batch.preset +', '+ profileUI.batch.custom);
-	//alert('AE: ' + profileUI.manager.ae.control +', Deadline: '+ profileUI.manager.deadline.control);
-	// alert(profileUI.manager.deadline.priority);
-	// alert(profileUI.manager.deadline.group +', '+ profileUI.manager.deadline.pool);
 
-//     new CSInterface().evalScript(script, callback);
-// }

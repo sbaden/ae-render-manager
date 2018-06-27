@@ -7,14 +7,15 @@
         <script src="./lib/CSInterface.js"></script>
         <script src="./lib/jquery-3.2.1.js"></script>
         <script src="./js/ext.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="./js/validatePanel.js"></script>
+        <script src="./js/bootstrap.min.js"></script>
         <link id="ppstyle" rel="stylesheet" type="text/css" href="css/style.css">
            
         <title>Render Manager</title>
     
     </head>
 
-    <body onLoad="onLoaded()">
+    <body>
         <div class="container">
             <div class="panel-group" id="accordion">
 
@@ -38,31 +39,21 @@
                     <span class="titles">Show Scripts</span>
                     <div class="container">
                         <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" id="showDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Shows <span class="caret"></span></button>
-                            <ul class="dropdown-menu" aria-labelledby="showDropdown">
-                                <li><a href="#" data-value="Total Access">Total Access</a></li>
-                                <li><a href="#" data-value="GameDay">GameDay</a></li>
-                                <li><a href="#" data-value="GMF">GMF</a></li>
-                            </ul>
+                            <button class="btn btn-default dropdown-toggle" id="showDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Show <span class="caret"></span></button>
+                            <ul class="dropdown-menu" id="show-list" aria-labelledby="showDropdown"></ul>
                         </div>
                     </div>
 
                     <div class="panel-collapse collapse" id="collapseScripts">
                         <div class="container">
                             <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" id="scriptDropdown" type="button" data-toggle="dropdown">Scripts <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">INSTL PLYR</a></li>
-                                    <li><a href="#">INSTL PLYR SPLTY</a></li>
-                                    <li><a href="#">CUTLINES</a></li>
-                                    <li><a href="#">BIO CRD 1PG</a></li>
-                                    <li><a href="#">INSTL PLYR</a></li>
-                                </ul>
+                                <button class="btn btn-primary dropdown-toggle" id="scriptDropdown" type="button" data-toggle="dropdown">Script <span class="caret"></span></button>
+                                <ul class="dropdown-menu" id="script-list"></ul>
                             </div>
                         </div>
                     </div>
 
-                    <button class="btnGroup2">Refresh</button>
+                    <button class="btnGroup2" id="btn-refresh">Refresh</button>
                 </section><!-- end section: shows -->                
                 
                 <section class="panel">
@@ -75,6 +66,7 @@
                         <div id="collapseCSV" class="panel-collapse">
                             <hr class="divLine" id="divLine_dataType">
                             <button class="btnGroup1" id="btn_selectDataFile">Select Data File</button>
+                            <span class="dirPath" id="csvPath"></span>
                         </div>
 
                         <div class="panel-collapse collapse" id="collapseFeed">
@@ -114,7 +106,7 @@
 
                             <div class="row block-checkboxes selectDesired">
                                 <div>
-                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2510" type="checkbox" name="teams">LA</label></div>
+                                    <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2510" type="checkbox" name="teams">LAR</label></div>
                                     <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="4400" type="checkbox" name="teams">LAC</label></div>
                                     <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="2700" type="checkbox" name="teams">MIA</label></div>
                                     <div class="col align-self-start" class="input_span"><label><input class="radio_checkbox case" value="3000" type="checkbox" name="teams">MIN</label></div>
@@ -150,9 +142,9 @@
                         <span class="input_span"><input class="radio_checkbox" id="customBatch" type="radio" name="batchLocation" value="customBatch">Custom</span>
                         <div id="collapseBatch" class="panel-collapse collapse">
                             <hr class="divLine" id="divLine_dataType">
-                            <button class="btnGroup1" id="btn_watchLocation">Select Custom Batch Location</button>
+                            <button class="btnGroup1" id="btn_batchLocation">Select Custom Batch Location</button>
+                            <span class="dirPath" id="batchPath"></span>
                         </div>
-                        <!-- <span class="dirPath" id="batchPath">/Volumes/GFXM1/XRENDERFARM/AE_Renders/</span> -->
                     </div>
                 </section><!-- end section: batchLocation -->
 
@@ -165,8 +157,8 @@
                         <div id="collapseRender" class="panel-collapse">
                             <hr class="divLine" id="divLine_dataType">
                             <button class="btnGroup1" id="btn_renderLocation">Select Render Location</button>
+                            <span class="dirPath" id="renderPath"></span>
                         </div>
-                        <!-- <span class="dirPath" id="renderPath">/Users/design25/Desktop/02 Render Test/</span> -->
                     </div>
                 </section><!-- end section: renderLocation -->
 
@@ -186,18 +178,34 @@
                         <div id="collapseDeadline" class="panel-collapse collapse">
                             <hr class="divLine" id="divLine_dataType">
                             <div id="priorityDiv">
-                                <span class="input_span">Priority <input type="number" id="priority" value="50" min="1" max="100"></span>
-                                <!-- <span class="input_span">Priority <input type="text" class="form-control bfh-number" id="priority" value="50" data-min="1" data-max="100"></span> -->
+                                <label class="input_span" for="fader">Priority</label>
+                                <input type="range" min="0" max="100" value="50" id="fader" step="5" list="valsettings">
+                                    <datalist id="valsettings">
+                                        <option>0</option>
+                                        <option>10</option>
+                                        <option>20</option>
+                                        <option>30</option>
+                                        <option>40</option>
+                                        <option>50</option>
+                                        <option>60</option>
+                                        <option>70</option>
+                                        <option>80</option>
+                                        <option>90</option>
+                                        <option>100</option>
+                                    </datalist>
+                                <output for="fader" id="priorityValue">50</output>
                             </div>
                             
                             <div id="poolDiv">
                                 <div class="container">
                                     <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" id="poolDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Pool <span class="caret"></span></button>
-                                        <ul class="dropdown-menu" aria-labelledby="poolDropdown">
-                                            <li><a href="#" data-value="shawn_primary">Cans Only</a></li>
-                                            <li><a href="#" data-value="shawn_secondary">Towers Only</a></li>
-                                            <li><a href="#" data-value="grfx_all">All Machines</a></li>
+                                        <label>Pool<label>
+                                        <button class="btn btn-default dropdown-toggle" id="poolDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">shawn_primary <span class="caret"></span></button>
+                                        <ul class="dropdown-menu" id="pool-list" aria-labelledby="poolDropdown">
+                                            <li><a href="#" data-value="shawn_primary">shawn_primary</a></li>
+                                            <li><a href="#" data-value="shawn_secondary">shawn_secondary</a></li>
+                                            <li><a href="#" data-value="grfx_all">grfx_all</a></li>
+                                            <li><a href="#" data-value="laengineering">laengineering</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -206,11 +214,12 @@
                             <div id="groupDiv">
                                 <div class="container">
                                     <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" id="groupDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Group <span class="caret"></span></button>
-                                        <ul class="dropdown-menu" aria-labelledby="groupDropdown">
-                                            <li><a href="#" data-value="ae_farm">Render Farm</a></li>
-                                            <li><a href="#" data-value="ae_scripts">Shawn All</a></li>
-                                            <li><a href="#" data-value="ae_renders">Machines All</a></li>
+                                        <label>Group<label>
+                                        <button class="btn btn-default dropdown-toggle" id="groupDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">ae_scripts <span class="caret"></span></button>
+                                        <ul class="dropdown-menu" id="group-list" aria-labelledby="groupDropdown">
+                                            <li><a href="#" data-value="ae_scripts">ae_scripts</a></li>
+                                            <li><a href="#" data-value="ae_farm">ae_farm</a></li>
+                                            <li><a href="#" data-value="ae_renders">ae_renders</a></li>
                                         </ul>
                                     </div>
                                 </div>
