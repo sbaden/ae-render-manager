@@ -55,7 +55,7 @@ function returnDirectory(){
 }
 
 function returnFile(){
-    var targetFile = File.openDialog();  // Select a folder
+    var targetFile = File.openDialog();  // Select a file
                 
     if (targetFile != null){  // Verify folder was selected
         directory = decodeURI(targetFile.fsName);  // Convert file path to readable text

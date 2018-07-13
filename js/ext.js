@@ -277,7 +277,7 @@ $(document).ready(function(){
                         'Group: ' + profileUI.manager.deadline.group;
 
 
-        alert(messageStr);
+        // alert(messageStr);
 
         // $('.modal-title').text('MESSAGE:');
         // $('#modal-text').text(messageStr);
