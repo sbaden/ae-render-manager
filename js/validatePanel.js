@@ -16,8 +16,8 @@ function verifyPanelReady(profileUI){
 		switch(profileUI.show){
         	// case 'Show':
 	        case '':
-	        // case null:
-	        // case undefined:
+	        // case 'null':
+	        // case 'undefined':
 	            var messageStr_show = 'A show must be selected from the show dropdown';
 	            displayAlert(messageStr_show);
 	            break;
@@ -31,8 +31,8 @@ function verifyPanelReady(profileUI){
 		switch(profileUI.script){
 	        // case 'Script':
 	        case '':
-	        // case null:
-	        // case undefined:
+	        // case 'null':
+	        // case 'undefined':
 	            var messageStr_script = 'A script must be selected from the script dropdown';
 	            displayAlert(messageStr_script);
 	            break;
@@ -46,8 +46,8 @@ function verifyPanelReady(profileUI){
 		if(profileUI.data.csv){
 	        switch(profileUI.data.file){
 	        	// case '':
-	        	// case null:
-	        	case undefined:
+	        	// case 'null':
+	        	case 'undefined':
 	        		var messageStr_csv = 'You have opted to use a CSV but no CSV has been selected';
 	        		displayAlert(messageStr_csv);
 	                break;
@@ -63,7 +63,7 @@ function verifyPanelReady(profileUI){
 		if(profileUI.data.feed){
 	        switch(profileUI.data.teams.length){
 	        	// case '':
-	        	// case null:
+	        	// case 'null':
 	        	case 0:
 	        		var messageStr_feed = 'You have opted to use a FEED but no teams have been selected';
 	        		displayAlert(messageStr_feed);
@@ -80,8 +80,8 @@ function verifyPanelReady(profileUI){
 		if(profileUI.batch.custom){
 			switch(profileUI.batch.pathCustom){
 				case '':
-	        	// case null:
-	        	// case undefined:
+	        	case 'null':
+	        	case 'undefined':
 	        		var messageStr_batch = 'Custom batch path has been chosen but no path has been selected';
 	        		displayAlert(messageStr_batch);
 	                break;
@@ -97,8 +97,8 @@ function verifyPanelReady(profileUI){
 		if(profileUI.render.custom){
 			switch(profileUI.render.pathCustom){
 				case '':
-	        	// case null:
-	        	// case undefined:
+	        	case 'null':
+	        	case 'undefined':
 	        		var messageStr_render = 'Custom render path has been chosen but no path has been selected';
 	        		displayAlert(messageStr_render);
 	                break;
