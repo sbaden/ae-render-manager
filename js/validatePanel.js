@@ -45,8 +45,8 @@ function verifyPanelReady(profileUI){
 	function validateCSV(){
 		if(profileUI.data.csv){
 	        switch(profileUI.data.file){
-	        	// case '':
-	        	// case 'null':
+	        	case '':
+	        	case 'null':
 	        	case 'undefined':
 	        		var messageStr_csv = 'You have opted to use a CSV but no CSV has been selected';
 	        		displayAlert(messageStr_csv);
