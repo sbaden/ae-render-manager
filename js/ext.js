@@ -122,9 +122,9 @@ $(document).ready(function(){
         $('#modal-text').text('Google Sheets has not yet been connected');
         $('#myModal').modal('show');
 
-        $('#csv').prop('checked', true);
-        $('#collapseCSV:hidden').show('slow');
-        $('#collapseFeed').hide('slow');
+        // $('#csv').prop('checked', true);
+        // $('#collapseCSV:hidden').show('slow');
+        // $('#collapseFeed').hide('slow');
     });
 
     $('#btn_selectDataFile').on('click', function(){
