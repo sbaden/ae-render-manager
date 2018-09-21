@@ -31,6 +31,11 @@ $(document).ready(function(){
     }
 
 
+
+    $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this).scrollspy('refresh')
+    });
+
     function getShowFolders(){
         csInterface.evalScript('getTargetFolders('+ JSON.stringify(profileUI.showDirectory) +')',
             function(result){
